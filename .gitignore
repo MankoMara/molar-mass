@@ -171,7 +171,7 @@ venv.bak/
 .mypy_cache/
 .dmypy.json
 dmypy.json
-
+mypy.ini
 # Pyre type checker
 .pyre/
 
@@ -205,7 +205,7 @@ tempCodeRunnerFile.py
 
 # Ruff stuff:
 .ruff_cache/
-
+ruff.toml
 # PyPI configuration file
 .pypirc
 
