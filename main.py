@@ -1,34 +1,37 @@
-class Elements:
-    H = 1
-    He = 2
-    Li = 7
-    Be = 9
-    B = 11
-    C = 12
-    N = 14
-    O = 16
-    F = 19
-    Ne = 20
+from constants import Elements
 
-def calculate_molar_mass(formula: str) -> int:
+def calculate_molar_mass(formula: str) -> float:
 
-    mass: int = 0
+    mass: float = 0
     number: str = ''
 
     for index, symbol in enumerate(formula):
+        if symbol.isalpha():
+            if symbol != formula[-1]:
+                badElement = Elements.get(symbol + formula[index+1 : index+2].lower(), False)
+            else:
+                mass += Elements[symbol]
+                continue
 
-        if Elements.__dict__.get(symbol, False):
-            for i in range(1, len(formula[index:])):
+            step: int = 2 if badElement else 1
+
+            for i in range(step, len(formula[index:])):
                 if formula[index+i].isdigit():
                     number += formula[index+i]
                 else:
                     break
 
-            if number.isdigit():
-                mass += Elements.__dict__[symbol] * int(number)
+            if number.isdigit() and badElement:
+                mass += badElement * float(number)
+            elif badElement:
+                mass += badElement
+            elif number.isdigit() and not badElement:
+                mass += Elements[symbol] * float(number)
             else:
-                mass += Elements.__dict__[symbol]
+                mass += Elements[symbol]
+ 
             number = ''
+            
 
     return mass
 
