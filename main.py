@@ -1,43 +1,38 @@
 from constants import Elements
 
+
 def calculate_molar_mass(formula: str) -> float:
 
     mass: float = 0
-    number: str = ''
 
     for index, symbol in enumerate(formula):
-        if symbol.isalpha():
+        if symbol.isalpha() and not symbol.islower():
             if symbol != formula[-1]:
-                badElement = Elements.get(symbol + formula[index+1 : index+2].lower(), False)
+                bad_element = Elements.get(symbol + formula[index+1 : index+2], False)
             else:
                 mass += Elements[symbol]
                 continue
 
-            step: int = 2 if badElement else 1
-
+            step: int = 2 if bad_element else 1
+            number: str = ''
             for i in range(step, len(formula[index:])):
                 if formula[index+i].isdigit():
                     number += formula[index+i]
                 else:
                     break
 
-            if number.isdigit() and badElement:
-                mass += badElement * float(number)
-            elif badElement:
-                mass += badElement
-            elif number.isdigit() and not badElement:
-                mass += Elements[symbol] * float(number)
-            else:
-                mass += Elements[symbol]
- 
-            number = ''
-            
+            element_mass = bad_element if bad_element else Elements[symbol]
+            count_elements = float(number) if number.isdigit() else 1
+            mass += element_mass * count_elements
 
     return mass
 
 
 def main() -> int:
-    formula = input("Enter the molecular formula: ").upper()
+    print("\033[31mNote: Element symbols are case-sensitive "
+          "(e.g., C, O, Co).\033[0m\n" + "—" * 27)
+
+    formula = input("Enter the molecular formula: ")
     print(calculate_molar_mass(formula))
     return 0
 
