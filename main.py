@@ -2,14 +2,15 @@ from constants import Elements
 
 
 def calculate_molar_mass(formula: str) -> float:
-
+    
+    last_index: int = len(formula) - 1
     mass: float = 0
 
     for index, symbol in enumerate(formula):
         if not symbol.isupper():
             continue
 
-        if symbol != formula[-1]:
+        if index != last_index:
             bad_element = Elements.get(symbol + formula[index+1 : index+2], False)
         else:
             mass += Elements[symbol]
