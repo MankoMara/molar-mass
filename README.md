@@ -4,7 +4,11 @@ A simple, dependency-free Python CLI script designed to calculate the molar mass
 
 ## Examples:
 
+<img width="545" height="130" alt="image" src="https://github.com/user-attachments/assets/e79da8e2-b347-4e15-9ff7-5e03aaed9158" />
 
+<img width="545" height="130" alt="image" src="https://github.com/user-attachments/assets/e4561ee8-ea35-47ef-808d-007e01025bf0" />
+
+<img width="545" height="130" alt="image" src="https://github.com/user-attachments/assets/0f1b4f0d-d770-4bc6-a01c-6ee6834b7eba" />
 
 ### Recommended 
 No.
@@ -18,7 +22,7 @@ git clone https://github.com/MankoMara/molar-mass
 ```
 cd molar-mass/
 ```
-2. Run the script:
+3. Run the script:
 ```
 python3 main.py
 ```
