@@ -6,24 +6,26 @@ def calculate_molar_mass(formula: str) -> float:
     mass: float = 0
 
     for index, symbol in enumerate(formula):
-        if symbol.isalpha() and not symbol.islower():
-            if symbol != formula[-1]:
-                bad_element = Elements.get(symbol + formula[index+1 : index+2], False)
+        if not symbol.isupper():
+            continue
+
+        if symbol != formula[-1]:
+            bad_element = Elements.get(symbol + formula[index+1 : index+2], False)
+        else:
+            mass += Elements[symbol]
+            continue
+
+        step: int = 2 if bad_element else 1
+        number: str = ''
+        for i in range(step, len(formula[index:])):
+            if formula[index+i].isdigit():
+                number += formula[index+i]
             else:
-                mass += Elements[symbol]
-                continue
+                break
 
-            step: int = 2 if bad_element else 1
-            number: str = ''
-            for i in range(step, len(formula[index:])):
-                if formula[index+i].isdigit():
-                    number += formula[index+i]
-                else:
-                    break
-
-            element_mass = bad_element if bad_element else Elements[symbol]
-            count_elements = float(number) if number.isdigit() else 1
-            mass += element_mass * count_elements
+        element_mass = bad_element if bad_element else Elements[symbol]
+        count_elements = float(number) if number.isdigit() else 1
+        mass += element_mass * count_elements
 
     return mass
 
