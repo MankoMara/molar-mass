@@ -1,12 +1,37 @@
 from constants import Elements
 
 
+def get_number(index: int, formula: str) -> int:
+    number = ''
+    for i in range(len(formula[index:])):
+        if formula[index+i].isdigit():
+            number += formula[index+i]
+        else:
+            break
+    return int(number) if number.isdigit() else 1
+
+
 def calculate_molar_mass(formula: str) -> float:
-    
+
     last_index: int = len(formula) - 1
     mass: float = 0
+    isinside: bool = False
+    inside_formula: str = ''
 
     for index, symbol in enumerate(formula):
+        if isinside and symbol not in {'(', ')'}:
+            inside_formula += symbol
+            continue
+        elif symbol == '(':
+            isinside = True
+            continue
+        elif symbol == ')':
+            isinside = False
+            count = get_number(index + 1, formula)
+            mass += count * calculate_molar_mass(inside_formula)
+            inside_formula = ''
+            continue
+
         if not symbol.isupper():
             continue
 
@@ -17,15 +42,10 @@ def calculate_molar_mass(formula: str) -> float:
             continue
 
         step: int = 2 if bad_element else 1
-        number: str = ''
-        for i in range(step, len(formula[index:])):
-            if formula[index+i].isdigit():
-                number += formula[index+i]
-            else:
-                break
+        count_elements = get_number(index + step, formula)
 
         element_mass = bad_element if bad_element else Elements[symbol]
-        count_elements = float(number) if number.isdigit() else 1
+
         mass += element_mass * count_elements
 
     return mass
